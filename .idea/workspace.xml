@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d2377b80-ae27-4cb5-babb-d44d41459f9f" name="Default Changelist" comment="" />
+    <list default="true" id="d2377b80-ae27-4cb5-babb-d44d41459f9f" name="Default Changelist" comment="初步实现了利用p2p协议搭建节点之间的通信网络">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/messages/command.go" beforeDir="false" afterPath="$PROJECT_DIR$/messages/command.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebook.md" beforeDir="false" afterPath="$PROJECT_DIR$/notebook.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/p2p/discovery.go" beforeDir="false" afterPath="$PROJECT_DIR$/p2p/discovery.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/p2p/transport.go" beforeDir="false" afterPath="$PROJECT_DIR$/p2p/transport.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,13 +32,14 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/utils/tools.go" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file:///usr/local/go/src/encoding/gob/decoder.go" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/messages/key-value.go" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/messages/command.go" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/p2p/discovery.go" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/p2p/transport.go" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../pkg/mod/github.com/libp2p/go-libp2p@v0.14.4/p2p/discovery/mdns.go" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/main.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file:///usr/local/go/src/encoding/gob/decoder.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../pkg/mod/github.com/libp2p/go-libp2p@v0.14.4/p2p/discovery/mdns.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/p2p/router.go" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/hlog/log.go" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1vaGZ8cybo3EvMKY0lVe5OHstFf" />
@@ -48,7 +56,7 @@
     <property name="configurable..is.expanded" value="true" />
     <property name="configurable.GoLibrariesConfigurable.is.expanded" value="true" />
     <property name="go.import.settings.migrated" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../test" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="ReaderModeSettings">
@@ -97,6 +105,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="初步实现了利用p2p协议搭建节点之间的通信网络" />
+    <option name="LAST_COMMIT_MESSAGE" value="初步实现了利用p2p协议搭建节点之间的通信网络" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

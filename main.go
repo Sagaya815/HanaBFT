@@ -6,6 +6,7 @@ import (
 	"github.com/libp2p/go-libp2p"
 	pubsub "github.com/libp2p/go-libp2p-pubsub"
 	"hanaBFT/hlog"
+	"hanaBFT/messages"
 	"hanaBFT/p2p"
 	"time"
 )
@@ -37,7 +38,24 @@ func main() {
 	}
 
 	// join the organization
-	p2p.JoinOrganization(ctx, ps, h.ID(), *selfName, *orgName)
+	org := p2p.JoinOrganization(ctx, ps, h.ID(), *selfName, *orgName)
 
-	time.Sleep(time.Hour)
+	for i := 0; i < 100; i++ {
+		k, v := messages.NextKeyValue(i)
+		message := messages.Message{
+			SenderID:    h.ID().Pretty(),
+			SenderName:  *selfName,
+			Timestamp:   time.Now().UnixNano(),
+			ContentType: "command",
+			Content: messages.Command{
+				SenderID:   h.ID().Pretty(),
+				SenderName: *selfName,
+				CommandID:  i,
+				Key:        k,
+				Value:      v,
+			},
+		}
+		org.Broadcast(message)
+		time.Sleep(time.Second * 2)
+	}
 }

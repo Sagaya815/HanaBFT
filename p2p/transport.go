@@ -3,6 +3,7 @@ package p2p
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/libp2p/go-libp2p-core/peer"
 	pubsub "github.com/libp2p/go-libp2p-pubsub"
 	"hanaBFT/hlog"
@@ -13,7 +14,7 @@ import (
 const MessagesBufSize = 1024
 
 type Organization struct {
-	Messages         chan *messages.Command
+	Messages         chan *messages.Message
 	ctx              context.Context
 	ps               *pubsub.PubSub
 	topic            *pubsub.Topic
@@ -27,7 +28,7 @@ func topicName(organizationName string) string {
 	return "HanaBFT-" + organizationName
 }
 
-func JoinOrganization(ctx context.Context, ps *pubsub.PubSub, selfID peer.ID, selfName, organizationName string) {
+func JoinOrganization(ctx context.Context, ps *pubsub.PubSub, selfID peer.ID, selfName, organizationName string) *Organization {
 	Init()
 	topic, err := ps.Join(topicName(organizationName))
 	if err != nil {
@@ -38,7 +39,7 @@ func JoinOrganization(ctx context.Context, ps *pubsub.PubSub, selfID peer.ID, se
 		hlog.Fatalf("When we subscribed to %s topic, an error occurred: %s", topicName(organizationName), err)
 	}
 	org := &Organization{
-		Messages:         make(chan *messages.Command, MessagesBufSize),
+		Messages:         make(chan *messages.Message, MessagesBufSize),
 		ctx:              ctx,
 		ps:               ps,
 		topic:            topic,
@@ -48,7 +49,9 @@ func JoinOrganization(ctx context.Context, ps *pubsub.PubSub, selfID peer.ID, se
 		selfName:         selfName,
 	}
 	go org.recvMsgLoop()
+	go org.handleRecvMessage()
 	go org.refreshPeers()
+	return org
 }
 
 func (org *Organization) recvMsgLoop() {
@@ -62,24 +65,28 @@ func (org *Organization) recvMsgLoop() {
 		if msg.ReceivedFrom == org.selfID {
 			continue
 		}
-		command := new(messages.Command)
-		err = json.Unmarshal(msg.Data, command)
+		message := new(messages.Message)
+		err = json.Unmarshal(msg.Data, message)
 		if err != nil {
 			hlog.Errorf("When organization unmarshal coming message, an error occurred: %s", err)
 			continue
 		}
-		org.Messages <- command
+		org.Messages <- message
 	}
 }
 
-func (org *Organization) Broadcast(msg messages.Command) error {
+func (org *Organization) Broadcast(msg messages.Message) {
 	hlog.Debugf("%s broadcast message %v", org.selfName, msg)
 	msgBytes, err := json.Marshal(msg)
 	if err != nil {
-		hlog.Errorf("When I broadcast a message, an error occurred: %s", err)
-		return err
+		hlog.Errorf("When I marshal a message, an error occurred: %s", err)
+		return
 	}
-	return org.topic.Publish(org.ctx, msgBytes)
+	err = org.topic.Publish(org.ctx, msgBytes)
+	if err != nil {
+		hlog.Errorf("When I broadcast a message, an error occurred: %s", err)
+		return
+	}
 }
 
 func (org *Organization) ListPeers() []peer.ID {
@@ -98,5 +105,31 @@ func (org *Organization) refreshPeers() {
 		case <-reuploadMapRouter.C:
 			MR.upload()
 		}
+	}
+}
+
+func (org *Organization) handleRecvMessage() {
+	for {
+		select {
+		case msg := <-org.Messages:
+			fmt.Println(msg)
+			if msg.ContentType == "command" {
+				command := new(messages.Command)
+				commandBytes, _ := json.Marshal(msg.Content)
+				json.Unmarshal(commandBytes, command)
+				fmt.Println(command)
+			}
+		}
+	}
+}
+
+func realHandleMsg(msg messages.Message) {
+	switch msg.ContentType {
+	case "preprepare":
+
+	case "prepare":
+
+	case "commit":
+
 	}
 }

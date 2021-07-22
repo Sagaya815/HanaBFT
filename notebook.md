@@ -47,3 +47,6 @@ func SetupDiscovery(ctx context.Context, h host.Host) error {
 	return nil
 }
 ```
+
+### 小结
+Command是由client发给主节点的和从节点的，所以这里可以利用net.Dial的方式建立tcp连接，然后给每个节点发送Command，主从节点之间和从节点之间通过p2p网络转发PBFT的三种消息：{PrePrepare Prepare Commit}

@@ -2,7 +2,6 @@ package p2p
 
 import (
 	"context"
-	"fmt"
 	"github.com/libp2p/go-libp2p-core/host"
 	"github.com/libp2p/go-libp2p-core/peer"
 	"github.com/libp2p/go-libp2p/p2p/discovery"
@@ -26,13 +25,11 @@ func (n *discoveryNotifee) HandlePeerFound(pi peer.AddrInfo) {
 		// fmt.Printf("error connecting to peer %s : %s\n", pi.ID.Pretty(), err)
 		hlog.Fatalf("When connect to a new peer, an error occurred: %s", err)
 	}
-	// QmVCN2EPsy8qUKP2tzomkr919zP4J7U3RzAFYtfp4rSMbd[/ip4/192.168.100.129/tcp/41277]
 	ID := pi.ID.Pretty()
 	ipInfo := strings.Split(pi.Addrs[0].String(), "/")
 	IP := ipInfo[2]
 	Port := ipInfo[4]
 	MR.Add(ID, IP, Port)
-	fmt.Println(MR, IP, Port)
 }
 
 // setupDiscovery creates an mDNS discovery service and attaches it to the libp2p Host.
