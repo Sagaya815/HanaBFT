@@ -17,9 +17,11 @@ type Route struct {
 }
 
 type MapRouter struct {
+	// string是peer的ID，非缩短以后的ID
 	peerRoutes map[string]*Route `json:"peer_routes,omitempty"`
 	peerNum    int               `json:"peer_num,omitempty"`
 	lock       sync.RWMutex      `json:"lock"`
+	Refresh    chan bool
 }
 
 var MR *MapRouter
@@ -32,6 +34,7 @@ func Init() {
 		peerRoutes: make(map[string]*Route),
 		peerNum:    0,
 		lock:       sync.RWMutex{},
+		Refresh:    make(chan bool, 1),
 	}
 	file, err = os.OpenFile(filepath.Base(fmt.Sprintf("%s.%s.route", os.Args[0], utils.ShortPeerID(hlog.ID))), os.O_CREATE|os.O_TRUNC|os.O_RDWR, 777)
 	if err != nil {
@@ -50,6 +53,7 @@ func (mr *MapRouter) Add(ID, IP, Port string) {
 	}
 	mr.peerRoutes[ID] = route
 	mr.peerNum++
+	mr.Refresh <- true
 	mr.lock.Unlock()
 }
 
@@ -61,12 +65,17 @@ func (mr *MapRouter) Remove(ID string) {
 }
 
 func (mr *MapRouter) Update(ids IDs) {
+	var flag bool = false
 	mr.lock.Lock()
 	for id, _ := range mr.peerRoutes {
 		if !ids.checkIsExists(id) {
 			delete(mr.peerRoutes, id)
 			mr.peerNum--
+			flag = true
 		}
+	}
+	if flag {
+		mr.Refresh <- true
 	}
 	mr.lock.Unlock()
 }
@@ -110,4 +119,8 @@ func (ids IDs) checkIsExists(id string) bool {
 		}
 	}
 	return flag
+}
+
+func (mr *MapRouter) PeerRoutes() map[string]*Route {
+	return mr.peerRoutes
 }

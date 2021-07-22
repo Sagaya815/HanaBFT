@@ -2,6 +2,8 @@ package messages
 
 import "fmt"
 
+const ChanMsgSize = 1024
+
 type Message struct {
 	SenderID    string
 	SenderName  string

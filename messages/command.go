@@ -6,16 +6,16 @@ import (
 )
 
 type Command struct {
-	SenderID   string
-	SenderName string
-	CommandID  int
-	Key        key
-	Value      value
+	ProposerID   string
+	ProposerName string
+	CommandID    int
+	Key          key
+	Value        value
 }
 
 func (c Command) String() string {
-	return fmt.Sprintf("<Command>{SenderID: %s, SenderName: %s, CommandID: %d, key: %v, value: %v",
-		c.SenderID, c.SenderName, c.CommandID, c.Key, c.Value)
+	return fmt.Sprintf("<Command>{ProposerID: %s, ProposerName: %s, CommandID: %d, key: %v, value: %v",
+		c.ProposerID, c.ProposerName, c.CommandID, c.Key, c.Value)
 }
 
 func init() {

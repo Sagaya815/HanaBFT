@@ -29,7 +29,6 @@ func topicName(organizationName string) string {
 }
 
 func JoinOrganization(ctx context.Context, ps *pubsub.PubSub, selfID peer.ID, selfName, organizationName string) *Organization {
-	Init()
 	topic, err := ps.Join(topicName(organizationName))
 	if err != nil {
 		hlog.Fatalf("When we joined %s topic, an error occurred: %s", topicName(organizationName), err)
@@ -75,7 +74,7 @@ func (org *Organization) recvMsgLoop() {
 	}
 }
 
-func (org *Organization) Broadcast(msg messages.Message) {
+func (org *Organization) Publish(msg messages.Message) {
 	hlog.Debugf("%s broadcast message %v", org.selfName, msg)
 	msgBytes, err := json.Marshal(msg)
 	if err != nil {
@@ -94,7 +93,7 @@ func (org *Organization) ListPeers() []peer.ID {
 }
 
 func (org *Organization) refreshPeers() {
-	peerRefreshTicker := time.NewTicker(time.Second)
+	peerRefreshTicker := time.NewTicker(time.Second * 3)
 	defer peerRefreshTicker.Stop()
 	reuploadMapRouter := time.NewTicker(time.Second * 10)
 	for {
