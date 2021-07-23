@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d2377b80-ae27-4cb5-babb-d44d41459f9f" name="Default Changelist" comment="增加了路由信息">
+    <list default="true" id="d2377b80-ae27-4cb5-babb-d44d41459f9f" name="Default Changelist" comment="共识阶段，每个peer利用p2p网络进行相互之间的通信，客户端发送请求和接收回复阶段，利用tcp进行广播通信，这里实现了tcp通信">
       <change beforePath="$PROJECT_DIR$/chat" beforeDir="false" afterPath="$PROJECT_DIR$/chat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/client/client.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hlog/log.go" beforeDir="false" afterPath="$PROJECT_DIR$/hlog/log.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/messages/command.go" beforeDir="false" afterPath="$PROJECT_DIR$/messages/command.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/messages/message.go" beforeDir="false" afterPath="$PROJECT_DIR$/messages/message.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebook.md" beforeDir="false" afterPath="$PROJECT_DIR$/notebook.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p2p/discovery.go" beforeDir="false" afterPath="$PROJECT_DIR$/network/p2p/discovery.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p2p/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/network/p2p/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p2p/transport.go" beforeDir="false" afterPath="$PROJECT_DIR$/network/p2p/organization.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/tools.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/tools.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/network/p2p/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/network/p2p/router.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/network/tcp/transport.go" beforeDir="false" afterPath="$PROJECT_DIR$/network/tcp/transport.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/peer/node.go" beforeDir="false" afterPath="$PROJECT_DIR$/peer/node.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run/clear.sh" beforeDir="false" afterPath="$PROJECT_DIR$/run/clear.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/hlog_test.go" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,8 +22,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Go File" />
         <option value="Go Application" />
+        <option value="Go File" />
       </list>
     </option>
   </component>
@@ -52,7 +54,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DefaultGoTemplateProperty" value="Go Application" />
+    <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -70,7 +72,7 @@
       <recent name="$PROJECT_DIR$/network" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build hanaBFT">
+  <component name="RunManager" selected="Shell Script.clear.sh">
     <configuration name="go build hanaBFT" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="hanaBFT" />
       <working_directory value="$PROJECT_DIR$" />
@@ -92,8 +94,24 @@
       <pattern value="^\QTestHlogSetup\E$" />
       <method v="2" />
     </configuration>
+    <configuration name="clear.sh" type="ShConfigurationType" temporary="true">
+      <option name="SCRIPT_TEXT" value="" />
+      <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
+      <option name="SCRIPT_PATH" value="$PROJECT_DIR$/run/clear.sh" />
+      <option name="SCRIPT_OPTIONS" value="" />
+      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
+      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
+      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="EXECUTE_IN_TERMINAL" value="true" />
+      <option name="EXECUTE_SCRIPT_FILE" value="true" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Shell Script.clear.sh" />
         <item itemvalue="Go Build.go build hanaBFT" />
         <item itemvalue="Go Test.TestHlogSetup in hanaBFT/tests" />
       </list>
@@ -117,7 +135,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="初步实现了利用p2p协议搭建节点之间的通信网络" />
     <MESSAGE value="增加了路由信息" />
-    <option name="LAST_COMMIT_MESSAGE" value="增加了路由信息" />
+    <MESSAGE value="共识阶段，每个peer利用p2p网络进行相互之间的通信，客户端发送请求和接收回复阶段，利用tcp进行广播通信，这里实现了tcp通信" />
+    <option name="LAST_COMMIT_MESSAGE" value="共识阶段，每个peer利用p2p网络进行相互之间的通信，客户端发送请求和接收回复阶段，利用tcp进行广播通信，这里实现了tcp通信" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

@@ -9,6 +9,7 @@ type Command struct {
 	ProposerID   string
 	ProposerName string
 	CommandID    int
+	Timestamp    int64
 	Key          key
 	Value        value
 }

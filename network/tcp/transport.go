@@ -3,6 +3,7 @@ package tcp
 
 import (
 	"encoding/gob"
+	"encoding/json"
 	"fmt"
 	"hanaBFT/hlog"
 	"hanaBFT/messages"
@@ -14,11 +15,9 @@ type Transport struct {
 	send chan messages.Message
 	recv chan messages.Message
 	uri  *url.URL
-}
 
-func init() {
-	gob.Register(messages.Message{})
-	gob.Register(messages.Command{})
+	RepliesChan  chan messages.Reply
+	CommandsChan chan messages.Command
 }
 
 func NewTransport(address string) *Transport {
@@ -93,8 +92,70 @@ func (t *Transport) HandleRecvMsg() {
 	for {
 		select {
 		case msg := <-t.recv:
-			fmt.Println(msg)
-			fmt.Println(msg.Content)
+			switch msg.ContentType {
+			case "command":
+				commandBytes, err := json.Marshal(msg.Content)
+				if err != nil {
+					hlog.Errorf("When marshal the command message, an error occurred: %s", err)
+				} else {
+					var command messages.Command
+					err = json.Unmarshal(commandBytes, &command)
+					if err != nil {
+						hlog.Errorf("When unmarshal the reply message, an error occurred: %s", err)
+					} else {
+						fmt.Println(command)
+						t.CommandsChan <- command
+					}
+				}
+			case "reply":
+				replyBytes, err := json.Marshal(msg.Content)
+				if err != nil {
+					hlog.Errorf("When marshal the reply message, an error occurred: %s", err)
+				} else {
+					var reply messages.Reply
+					err = json.Unmarshal(replyBytes, &reply)
+					if err != nil {
+						hlog.Errorf("When unmarshal the reply message, an error occurred: %s", err)
+					} else {
+						fmt.Println(reply)
+						t.RepliesChan <- reply
+					}
+				}
+			}
 		}
 	}
+	//for {
+	//	select {
+	//	case msg := <- t.recv:
+	//		switch msg.ContentType {
+	//		case "reply":
+	//			replyBytes, err := json.Marshal(msg.Content)
+	//			if err != nil {
+	//				hlog.Errorf("When marshal the reply message, an error occurred: %s", err)
+	//				continue
+	//			}
+	//			var reply messages.Reply
+	//			err = json.Unmarshal(replyBytes, &reply)
+	//			if err != nil {
+	//				hlog.Errorf("When unmarshal the reply message, an error occurred: %s", err)
+	//				continue
+	//			}
+	//			fmt.Println(reply)
+	//			t.Replies <- reply
+	//		case "command":
+	//			commandBytes, err := json.Marshal(msg.Content)
+	//			if err != nil {
+	//				hlog.Errorf("When marshal the command message, an error occurred: %s", err)
+	//				continue
+	//			}
+	//			var command messages.Command
+	//			err = json.Unmarshal(commandBytes, &command)
+	//			if err != nil {
+	//				hlog.Errorf("When unmarshal the reply message, an error occurred: %s", err)
+	//				continue
+	//			}
+	//			t.Commands <- command
+	//		}
+	//	}
+	//}
 }

@@ -48,6 +48,8 @@ func Debug(v ...interface{}) {
 }
 
 func Debugf(format string, v ...interface{}) {
+	HLOG.Lock()
+	defer HLOG.Unlock()
 	HLOG.debug.Output(2, fmt.Sprintf(format, v...))
 }
 
@@ -64,6 +66,8 @@ func Error(v ...interface{}) {
 }
 
 func Errorf(format string, v ...interface{}) {
+	HLOG.Lock()
+	defer HLOG.Unlock()
 	HLOG.error.Output(2, fmt.Sprintf(format, v...))
 }
 
@@ -73,6 +77,8 @@ func Fatal(v ...interface{}) {
 }
 
 func Fatalf(format string, v ...interface{}) {
+	HLOG.Lock()
+	defer HLOG.Unlock()
 	HLOG.fatal.Output(2, fmt.Sprintf(format, v...))
 	os.Exit(1)
 }

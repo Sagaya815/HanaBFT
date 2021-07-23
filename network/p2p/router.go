@@ -124,3 +124,7 @@ func (ids IDs) checkIsExists(id string) bool {
 func (mr *MapRouter) PeerRoutes() map[string]*Route {
 	return mr.peerRoutes
 }
+
+func (mr *MapRouter) PeerNum() int {
+	return mr.peerNum
+}
