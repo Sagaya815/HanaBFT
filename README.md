@@ -1,2 +1,3 @@
 # HanaBFT
-研究共识算法
+question 1:
+<go mod> version control is not as convenient as I suppose
